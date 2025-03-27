@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Fondo circular -->
+  <circle cx="100" cy="100" r="95" fill="#ffffff" stroke="#F06595" stroke-width="3" />
+  
+  <!-- Elementos decorativos -->
+  <g>
+    <!-- Tijeras estilizadas -->
+    <path d="M60,70 C65,65 70,70 75,75 L125,125 C130,130 135,135 140,130 M140,70 C135,65 130,70 125,75 L75,125 C70,130 65,135 60,130" 
+          fill="none" stroke="#F06595" stroke-width="3" stroke-linecap="round" />
+    
+    <!-- Símbolo de peine -->
+    <path d="M75,45 H125 M75,52 H125 M85,45 V60 M95,45 V60 M105,45 V60 M115,45 V60" 
+          fill="none" stroke="#E64980" stroke-width="2" stroke-linecap="round" />
+    
+    <!-- Esmalte de uñas estilizado -->
+    <rect x="85" y="135" width="30" height="20" rx="2" fill="#F783AC" />
+    <rect x="90" y="130" width="20" height="5" rx="1" fill="#D6336C" />
+    <rect x="95" y="122" width="10" height="8" rx="1" fill="#D6336C" />
+  </g>
+  
+  <!-- Texto circular "Consentidas" -->
+  <path id="textPathTop" d="M100,30 A70,70 0 0,1 170,100" fill="none" />
+  <text>
+    <textPath href="#textPathTop" startOffset="50%" text-anchor="middle" font-family="'Playfair Display', serif" font-size="14" fill="#C2255C" font-weight="bold">
+      Consentidas
+    </textPath>
+  </text>
+  
+  <!-- Texto circular "Mayte" -->
+  <path id="textPathBottom" d="M170,100 A70,70 0 0,1 100,170" fill="none" />
+  <text>
+    <textPath href="#textPathBottom" startOffset="50%" text-anchor="middle" font-family="'Playfair Display', serif" font-size="14" fill="#C2255C" font-weight="bold">
+      Mayte
+    </textPath>
+  </text>
+  
+  <!-- Estrellas decorativas -->
+  <path d="M35,100 L38,94 L42,100 L38,106 Z" fill="#F783AC" transform="rotate(30, 38, 100)" />
+  <path d="M165,100 L168,94 L172,100 L168,106 Z" fill="#F783AC" transform="rotate(-30, 168, 100)" />
+  <path d="M100,35 L103,29 L107,35 L103,41 Z" fill="#F783AC" transform="rotate(0, 103, 35)" />
+  <path d="M100,165 L103,159 L107,165 L103,171 Z" fill="#F783AC" transform="rotate(0, 103, 165)" />
+</svg>

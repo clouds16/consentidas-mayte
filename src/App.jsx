@@ -1,107 +1,167 @@
-import { useState } from 'react';
-import {
-  AppShell,
-  Burger,
-  Button,
-  Group,
-  NavLink,
-  Title,
-  Paper,
+import { useState, useEffect } from 'react';
+import { 
+  AppShell, 
   Container,
   useMantineTheme,
+  Burger,
+  Group,
+  Title,
+  Button,
 } from '@mantine/core';
+
+// Import components
+import HeroSection from './components/HeroSection';
+import ServicesSection from './components/ServicesSection';
+import AboutSection from './components/AboutSection';
+import ContactSection from './components/ContactSection';
+import Footer from './components/Footer';
 
 function App() {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
-  
+  const [activeSection, setActiveSection] = useState('inicio');
+  const [scrollY, setScrollY] = useState(0);
+
+  // Scroll effect to change active section
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+      
+      const sections = ['inicio', 'servicios', 'nosotros', 'contacto'];
+      const currentSection = sections.find(section => {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          return rect.top <= 100 && rect.bottom >= 100;
+        }
+        return false;
+      });
+      
+      if (currentSection) {
+        setActiveSection(currentSection);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    setOpened(false);
+  };
+
   return (
     <AppShell
       header={{ height: 60 }}
-      navbar={{ 
-        width: 300, 
-        breakpoint: 'sm', 
-        collapsed: { mobile: !opened } 
+      navbar={{
+        width: 300,
+        breakpoint: 'sm',
+        collapsed: { desktop: true, mobile: !opened },
       }}
-      padding="md"
+      padding={0}
     >
-      <AppShell.Header>
-        <Group h="100%" px="md">
-          <Burger 
-            opened={opened} 
-            onClick={() => setOpened(!opened)} 
-            hiddenFrom="sm" 
-            size="sm" 
-          />
-          <Title order={3}>Mantine + Tailwind</Title>
-        </Group>
+      <AppShell.Header 
+        style={{
+          backgroundColor: scrollY > 50 ? 'rgba(255, 255, 255, 0.9)' : 'white',
+          backdropFilter: scrollY > 50 ? 'blur(8px)' : 'none',
+          boxShadow: scrollY > 50 ? '0 2px 10px rgba(0, 0, 0, 0.1)' : 'none',
+          transition: 'all 0.3s ease'
+        }}
+      >
+        <Container size="lg">
+          <Group justify="space-between" h="100%">
+            <Group>
+              <Burger
+                opened={opened}
+                onClick={() => setOpened(!opened)}
+                hiddenFrom="sm"
+                size="sm"
+              />
+              <Title c="pink.6" className="font-serif" order={3}>Consentidas Mayte</Title>
+            </Group>
+            
+            <Group gap={5} visibleFrom="sm">
+              <Button 
+                variant={activeSection === 'inicio' ? 'filled' : 'subtle'} 
+                color="pink" 
+                onClick={() => scrollToSection('inicio')}
+              >
+                Inicio
+              </Button>
+              <Button 
+                variant={activeSection === 'servicios' ? 'filled' : 'subtle'} 
+                color="pink" 
+                onClick={() => scrollToSection('servicios')}
+              >
+                Servicios
+              </Button>
+              <Button 
+                variant={activeSection === 'nosotros' ? 'filled' : 'subtle'} 
+                color="pink" 
+                onClick={() => scrollToSection('nosotros')}
+              >
+                Nosotros
+              </Button>
+              <Button 
+                variant={activeSection === 'contacto' ? 'filled' : 'subtle'} 
+                color="pink" 
+                onClick={() => scrollToSection('contacto')}
+              >
+                Contacto
+              </Button>
+            </Group>
+          </Group>
+        </Container>
       </AppShell.Header>
 
       <AppShell.Navbar p="md">
-        <NavLink
-          label="Home"
-          leftSection={<span>🏠</span>}
-          active
-        />
-        <NavLink
-          label="Settings"
-          leftSection={<span>⚙️</span>}
-        />
-        <NavLink
-          label="Gallery"
-          leftSection={<span>🖼️</span>}
-        />
+        <Button 
+          fullWidth 
+          variant={activeSection === 'inicio' ? 'filled' : 'subtle'} 
+          color="pink" 
+          onClick={() => scrollToSection('inicio')}
+          mb="xs"
+        >
+          Inicio
+        </Button>
+        <Button 
+          fullWidth 
+          variant={activeSection === 'servicios' ? 'filled' : 'subtle'} 
+          color="pink" 
+          onClick={() => scrollToSection('servicios')}
+          mb="xs"
+        >
+          Servicios
+        </Button>
+        <Button 
+          fullWidth 
+          variant={activeSection === 'nosotros' ? 'filled' : 'subtle'} 
+          color="pink" 
+          onClick={() => scrollToSection('nosotros')}
+          mb="xs"
+        >
+          Nosotros
+        </Button>
+        <Button 
+          fullWidth 
+          variant={activeSection === 'contacto' ? 'filled' : 'subtle'} 
+          color="pink" 
+          onClick={() => scrollToSection('contacto')}
+        >
+          Contacto
+        </Button>
       </AppShell.Navbar>
 
       <AppShell.Main>
-        <Container size="md">
-          {/* Using Mantine components */}
-          <Title order={1} className="mb-8">Mantine + Tailwind CSS</Title>
-          
-          {/* Using Mantine Paper with Tailwind classes */}
-          <Paper withBorder p="xl" radius="md" className="mb-8 shadow-lg">
-            <h2 className="text-2xl font-bold text-blue-600 mb-4">Using Both Libraries Together</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div className="p-4 bg-gray-100 rounded-lg">
-                <h3 className="text-lg font-semibold mb-2">Mantine Benefits</h3>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Ready-to-use components</li>
-                  <li>Theming system</li>
-                  <li>Accessibility features</li>
-                </ul>
-              </div>
-              
-              <div className="p-4 bg-blue-50 rounded-lg">
-                <h3 className="text-lg font-semibold mb-2">Tailwind Benefits</h3>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Utility-first approach</li>
-                  <li>Highly customizable</li>
-                  <li>No naming conventions needed</li>
-                </ul>
-              </div>
-            </div>
-            
-            {/* Mix of Mantine components with Tailwind classes */}
-            <Group justify="flex-end" className="mt-4">
-              <Button variant="default" className="hover:bg-gray-200 transition-colors">
-                Cancel
-              </Button>
-              <Button className="hover:shadow-md transition-shadow">
-                Submit
-              </Button>
-            </Group>
-          </Paper>
-          
-          {/* Pure Tailwind section */}
-          <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-6 rounded-xl shadow-xl">
-            <h2 className="text-xl font-bold mb-3">Pure Tailwind Section</h2>
-            <p className="mb-4">This section is styled purely with Tailwind CSS classes.</p>
-            <button className="bg-white text-purple-700 px-4 py-2 rounded-lg font-medium hover:bg-opacity-90 transition-colors">
-              Tailwind Button
-            </button>
-          </div>
-        </Container>
+        <HeroSection scrollToSection={scrollToSection} />
+        <ServicesSection />
+        <AboutSection />
+        <ContactSection />
+        <Footer />
       </AppShell.Main>
     </AppShell>
   );

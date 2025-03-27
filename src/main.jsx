@@ -1,19 +1,39 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import { MantineProvider, createTheme } from '@mantine/core';
+import App from './App';
+
+// Import styles
 import '@mantine/core/styles.css';
+import './index.css';
 
-import './index.css'
-import App from './App.jsx'
-
+// Create theme
 const theme = createTheme({
-  primaryColor: 'blue',
+  colors: {
+    pink: [
+      '#FFF0F6',
+      '#FFDEEB',
+      '#FCC2D7',
+      '#FAA2C1',
+      '#F783AC',
+      '#F06595',
+      '#E64980',
+      '#D6336C',
+      '#C2255C',
+      '#A61E4D',
+    ],
+  },
+  primaryColor: 'pink',
+  fontFamily: 'Poppins, sans-serif',
+  headings: {
+    fontFamily: 'Playfair Display, serif',
+  }
 });
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>=
-    <MantineProvider theme={theme} defaultColorScheme="light">
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <MantineProvider theme={theme}>
       <App />
     </MantineProvider>
-  </StrictMode>,
-)
+  </React.StrictMode>
+);
